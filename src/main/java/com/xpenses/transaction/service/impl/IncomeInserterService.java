@@ -23,6 +23,7 @@ public class IncomeInserterService implements InserterService {
     public void execute(WorkBean workBean) {
         IncomeDTO incomeDTO = workBean.getRequestIncome();
         incomeDTO.setDtInsert(new Timestamp(System.currentTimeMillis()));
-        incomeRepository.save(ObjectMapper.mapObject(incomeDTO, Income.class));
+        Income savedIncome = incomeRepository.save(ObjectMapper.mapObject(incomeDTO, Income.class));
+        workBean.setResponseIncome(ObjectMapper.mapObject(savedIncome, IncomeDTO.class));
     }
 }

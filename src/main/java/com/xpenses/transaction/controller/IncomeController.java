@@ -1,6 +1,8 @@
 package com.xpenses.transaction.controller;
 
 import com.xpenses.transaction.common.WorkBean;
+import com.xpenses.transaction.dto.ApiRequest;
+import com.xpenses.transaction.dto.ApiResponse;
 import com.xpenses.transaction.dto.IncomeDTO;
 import com.xpenses.transaction.service.AcquirerService;
 import com.xpenses.transaction.service.InserterService;
@@ -25,26 +27,36 @@ public class IncomeController {
     private InserterService inserterService;
 
     @PostMapping("/get-income")
-    public ResponseEntity<IncomeDTO> getIncome(@RequestBody IncomeDTO request) {
+    public ApiResponse getIncome(@RequestBody ApiRequest request) {
         logger.debug(request.toString());
         WorkBean workBean = new WorkBean();
-        workBean.setRequestIncome(request);
+        workBean.setRequestIncome(request.getRequestBody());
         workBean.setResponseIncome(new IncomeDTO());
 
         acquirerService.execute(workBean);
 
-        return ResponseEntity.ok(workBean.getResponseIncome());
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatus(200);
+        apiResponse.setMessage("Income data fetched successfully.");
+        apiResponse.setResponseBody(workBean.getResponseIncome());
+
+        return apiResponse;
     }
 
     @PostMapping("/put-income")
-    public ResponseEntity<String> putIncome(@RequestBody IncomeDTO request) {
+    public ApiResponse putIncome(@RequestBody ApiRequest request) {
         logger.debug(request.toString());
         WorkBean workBean = new WorkBean();
-        workBean.setRequestIncome(request);
+        workBean.setRequestIncome(request.getRequestBody());
 
         inserterService.execute(workBean);
 
-        return ResponseEntity.ok("Success");
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatus(200);
+        apiResponse.setMessage("Income data inserted successfully.");
+        apiResponse.setResponseBody(workBean.getResponseIncome());
+
+        return apiResponse;
     }
 
 }
