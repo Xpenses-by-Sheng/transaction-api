@@ -1,7 +1,7 @@
 package com.xpenses.transaction.service.impl;
 
 import com.xpenses.transaction.common.WorkBean;
-import com.xpenses.transaction.dto.IncomeDTO;
+import com.xpenses.transaction.dto.IncomeDto;
 import com.xpenses.transaction.entity.Income;
 import com.xpenses.transaction.repository.IncomeRepository;
 import com.xpenses.transaction.service.InserterService;
@@ -21,9 +21,9 @@ public class IncomeInserterService implements InserterService {
 
     @Override
     public void execute(WorkBean workBean) {
-        IncomeDTO incomeDTO = workBean.getRequestIncome();
+        IncomeDto incomeDTO = workBean.getRequestBody().getIncome();
         incomeDTO.setDtInsert(new Timestamp(System.currentTimeMillis()));
         Income savedIncome = incomeRepository.save(ObjectMapper.mapObject(incomeDTO, Income.class));
-        workBean.setResponseIncome(ObjectMapper.mapObject(savedIncome, IncomeDTO.class));
+        workBean.getResponseBody().setIncome(ObjectMapper.mapObject(savedIncome, IncomeDto.class));
     }
 }

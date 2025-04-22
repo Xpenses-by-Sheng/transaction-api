@@ -1,4 +1,4 @@
-package com.xpenses.transaction.dto;
+package com.xpenses.transaction.dto.response;
 
 import lombok.Data;
 
@@ -6,5 +6,5 @@ import lombok.Data;
 public class ApiResponse {
     private int status;
     private String message;
-    private IncomeDTO responseBody;
+    private ResponseBody responseBody;
 }

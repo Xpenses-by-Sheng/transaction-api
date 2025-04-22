@@ -1,9 +1,9 @@
 package com.xpenses.transaction.controller;
 
 import com.xpenses.transaction.common.WorkBean;
-import com.xpenses.transaction.dto.ApiRequest;
-import com.xpenses.transaction.dto.ApiResponse;
-import com.xpenses.transaction.dto.IncomeDTO;
+import com.xpenses.transaction.dto.request.ApiRequest;
+import com.xpenses.transaction.dto.response.ApiResponse;
+import com.xpenses.transaction.dto.IncomeDto;
 import com.xpenses.transaction.service.AcquirerService;
 import com.xpenses.transaction.service.InserterService;
 import org.apache.logging.log4j.LogManager;
@@ -30,16 +30,18 @@ public class IncomeController {
     @PostMapping("/get-income")
     public ApiResponse getIncome(@RequestBody ApiRequest request) {
         logger.debug(request.toString());
+
+
+
         WorkBean workBean = new WorkBean();
-        workBean.setRequestIncome(request.getRequestBody());
-        workBean.setResponseIncome(new IncomeDTO());
+        workBean.setRequestBody(request.getRequestBody());
 
         acquirerService.execute(workBean);
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(200);
         apiResponse.setMessage("Income data fetched successfully.");
-        apiResponse.setResponseBody(workBean.getResponseIncome());
+        apiResponse.setResponseBody(workBean.getResponseBody());
 
         return apiResponse;
     }
@@ -48,14 +50,14 @@ public class IncomeController {
     public ApiResponse putIncome(@RequestBody ApiRequest request) {
         logger.debug(request.toString());
         WorkBean workBean = new WorkBean();
-        workBean.setRequestIncome(request.getRequestBody());
+        workBean.setRequestBody(request.getRequestBody());
 
         inserterService.execute(workBean);
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(200);
         apiResponse.setMessage("Income data inserted successfully.");
-        apiResponse.setResponseBody(workBean.getResponseIncome());
+        apiResponse.setResponseBody(workBean.getResponseBody());
 
         return apiResponse;
     }
