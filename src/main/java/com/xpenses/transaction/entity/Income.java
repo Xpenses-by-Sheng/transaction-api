@@ -2,6 +2,7 @@ package com.xpenses.transaction.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Timestamp;
 
@@ -10,9 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "INCOME_MASTER")
 public class Income {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "income_master_seq")
-    @SequenceGenerator(name = "income_master_seq", sequenceName = "SEQ_INCOME_MASTER", allocationSize = 1)
-    private Long id;
+    @UuidGenerator
+    private String incomeId;
     private String title;
     private String description;
     private int amount;

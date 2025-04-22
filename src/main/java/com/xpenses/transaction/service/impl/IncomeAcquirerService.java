@@ -22,7 +22,7 @@ public class IncomeAcquirerService implements AcquirerService {
     @Override
     public void execute(WorkBean workBean) {
         Income query = ObjectMapper.mapObject(workBean.getRequestIncome(), Income.class);
-        Optional<Income> optionalIncome = incomeRepository.findById(query.getId());
-        optionalIncome.ifPresent(income -> workBean.setResponseIncome(ObjectMapper.mapObject(income, IncomeDTO.class)));
+        incomeRepository.findById(query.getIncomeId())
+                .ifPresent(income -> workBean.setResponseIncome(ObjectMapper.mapObject(income, IncomeDTO.class)));
     }
 }
