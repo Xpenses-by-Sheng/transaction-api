@@ -4,26 +4,29 @@ import com.xpenses.transaction.common.WorkBean;
 import com.xpenses.transaction.dto.IncomeDto;
 import com.xpenses.transaction.entity.Income;
 import com.xpenses.transaction.repository.IncomeRepository;
-import com.xpenses.transaction.service.InserterService;
+import com.xpenses.transaction.service.LogicMaster;
 import com.xpenses.transaction.util.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
+@RequiredArgsConstructor
 @Service
-@Qualifier("incomeInserter")
-public class IncomeInserterService implements InserterService {
+public class IncomeInserterLogic implements LogicMaster {
 
-    @Autowired
-    private IncomeRepository incomeRepository;
+    private static final Logger logger = LogManager.getLogger(IncomeInserterLogic.class);
+    private final IncomeRepository incomeRepository;
 
     @Override
     public void execute(WorkBean workBean) {
+        logger.debug("Start {}", this.getClass().getName());
         IncomeDto incomeDTO = workBean.getRequestBody().getIncome();
         incomeDTO.setDtInsert(new Timestamp(System.currentTimeMillis()));
         Income savedIncome = incomeRepository.save(ObjectMapper.mapObject(incomeDTO, Income.class));
         workBean.getResponseBody().setIncome(ObjectMapper.mapObject(savedIncome, IncomeDto.class));
+        logger.debug("End {}", this.getClass().getName());
     }
 }

@@ -3,63 +3,62 @@ package com.xpenses.transaction.controller;
 import com.xpenses.transaction.common.WorkBean;
 import com.xpenses.transaction.dto.request.ApiRequest;
 import com.xpenses.transaction.dto.response.ApiResponse;
-import com.xpenses.transaction.dto.IncomeDto;
-import com.xpenses.transaction.service.AcquirerService;
-import com.xpenses.transaction.service.InserterService;
+import com.xpenses.transaction.enums.FinancialType;
+import com.xpenses.transaction.exception.ApplicationException;
+import com.xpenses.transaction.factory.ResponseFactory;
+import com.xpenses.transaction.factory.WorkBeanFactory;
+import com.xpenses.transaction.service.ServiceMaster;
+import com.xpenses.transaction.util.LogUtil;
+import com.xpenses.transaction.validator.IncomeRequestValidator;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 public class IncomeController {
 
     private static final Logger logger = LogManager.getLogger(IncomeController.class);
 
-    @Autowired
-    @Qualifier("incomeAcquirer")
-    private AcquirerService acquirerService;
-
-    @Autowired
-    @Qualifier("incomeInserter")
-    private InserterService inserterService;
+    private final ServiceMaster serviceMaster;
+    private final IncomeRequestValidator validator;
 
     @PostMapping("/get-income")
-    public ApiResponse getIncome(@RequestBody ApiRequest request) {
-        logger.debug(request.toString());
+    public ResponseEntity<ApiResponse> getIncome(@RequestBody ApiRequest request) {
+        LogUtil.outputRequestLog(request);
 
+        WorkBean workBean;
+        try {
+            validator.validate(request);
+            workBean = WorkBeanFactory.build(request, FinancialType.INCOME);
+            serviceMaster.execute(workBean);
+        } catch (ApplicationException e) {
+            logger.error(e.getMessage());
+            return ResponseFactory.build(e.getMessage());
+        }
 
-
-        WorkBean workBean = new WorkBean();
-        workBean.setRequestBody(request.getRequestBody());
-
-        acquirerService.execute(workBean);
-
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setStatus(200);
-        apiResponse.setMessage("Income data fetched successfully.");
-        apiResponse.setResponseBody(workBean.getResponseBody());
-
-        return apiResponse;
+        return ResponseFactory.build(workBean.getResponseBody());
     }
 
     @PostMapping("/put-income")
-    public ApiResponse putIncome(@RequestBody ApiRequest request) {
-        logger.debug(request.toString());
-        WorkBean workBean = new WorkBean();
-        workBean.setRequestBody(request.getRequestBody());
+    public ResponseEntity<ApiResponse> putIncome(@RequestBody ApiRequest request) {
+        LogUtil.outputRequestLog(request);
 
-        inserterService.execute(workBean);
+        WorkBean workBean;
+        try {
+            validator.validate(request);
+            workBean = WorkBeanFactory.build(request, FinancialType.INCOME);
+            serviceMaster.execute(workBean);
+        } catch (ApplicationException e) {
+            logger.error(e.getMessage());
+            return ResponseFactory.build(e.getMessage());
+        }
 
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setStatus(200);
-        apiResponse.setMessage("Income data inserted successfully.");
-        apiResponse.setResponseBody(workBean.getResponseBody());
-
-        return apiResponse;
+        return ResponseFactory.build(workBean.getResponseBody());
     }
 
 }

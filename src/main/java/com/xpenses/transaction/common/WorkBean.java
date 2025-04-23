@@ -2,12 +2,14 @@ package com.xpenses.transaction.common;
 
 import com.xpenses.transaction.dto.request.RequestBody;
 import com.xpenses.transaction.dto.response.ResponseBody;
+import com.xpenses.transaction.enums.FinancialType;
 import com.xpenses.transaction.enums.OperationType;
 import lombok.Data;
 
 @Data
 public class WorkBean {
     private OperationType operationType;
+    private FinancialType financialType;
     private RequestBody requestBody;
     private ResponseBody responseBody;
 
