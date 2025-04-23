@@ -1,4 +1,4 @@
-package com.xpenses.transaction.service.impl;
+package com.xpenses.transaction.service.impl.income;
 
 import com.xpenses.transaction.common.WorkBean;
 import com.xpenses.transaction.service.LogicMaster;

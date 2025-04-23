@@ -1,7 +1,7 @@
 package com.xpenses.transaction.service;
 
 import com.xpenses.transaction.common.WorkBean;
-import com.xpenses.transaction.enums.LogicSelector;
+import com.xpenses.transaction.enums.LogicType;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +18,8 @@ public class ServiceMaster {
     public void execute(WorkBean workBean) {
         logger.debug("Start {}", this.getClass().getName());
 
-        LogicSelector logicSelector = LogicSelector.of(workBean.getOperationType(), workBean.getFinancialType());
-        LogicMaster logic = context.getBean(logicSelector.getLogicClass());
+        LogicType logicType = LogicType.of(workBean.getOperationType(), workBean.getFinancialType());
+        LogicMaster logic = context.getBean(logicType.getLogicClass());
         logic.execute(workBean);
 
         logger.debug("End {}", this.getClass().getName());
