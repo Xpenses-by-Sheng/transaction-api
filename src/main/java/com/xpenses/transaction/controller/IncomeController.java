@@ -1,12 +1,11 @@
 package com.xpenses.transaction.controller;
 
+import com.xpenses.transaction.dto.IncomeParamsBean;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import com.xpenses.transaction.dto.request.ApiRequest;
 import com.xpenses.transaction.dto.request.income.GetIncomeReq;
-import com.xpenses.transaction.dto.IncomeParamsBean;
 import com.xpenses.transaction.dto.request.income.PutIncomeReq;
 import com.xpenses.transaction.dto.response.ApiResponse;
-import com.xpenses.transaction.dto.IncomeResponseBean;
-import com.xpenses.transaction.enums.FinancialType;
 import com.xpenses.transaction.enums.OperationType;
 import com.xpenses.transaction.exception.ApplicationException;
 import com.xpenses.transaction.factory.ParamsBeanFactory;
