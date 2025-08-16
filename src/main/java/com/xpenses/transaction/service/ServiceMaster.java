@@ -1,6 +1,7 @@
 package com.xpenses.transaction.service;
 
-import com.xpenses.transaction.common.WorkBean;
+import com.xpenses.transaction.dto.IncomeParamsBean;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import com.xpenses.transaction.enums.LogicType;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -15,12 +16,12 @@ public class ServiceMaster {
     private static final Logger logger = LogManager.getLogger(ServiceMaster.class);
     private final ApplicationContext context;
 
-    public void execute(WorkBean workBean) {
+    public void execute(IncomeParamsBean paramsBean, IncomeResponseBean responseBean) {
         logger.debug("Start {}", this.getClass().getName());
 
-        LogicType logicType = LogicType.of(workBean.getOperationType(), workBean.getFinancialType());
+        LogicType logicType = LogicType.of(paramsBean.getOperationType());
         LogicMaster logic = context.getBean(logicType.getLogicClass());
-        logic.execute(workBean);
+        logic.execute(paramsBean, responseBean);
 
         logger.debug("End {}", this.getClass().getName());
     }

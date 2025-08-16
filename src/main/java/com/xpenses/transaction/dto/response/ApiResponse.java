@@ -1,9 +1,13 @@
 package com.xpenses.transaction.dto.response;
 
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import lombok.Data;
+
+import java.util.Map;
 
 @Data
 public class ApiResponse {
     private String message;
-    private ResponseBody responseBody;
+    private Map<String, String> messageMap;
+    private IncomeResponseBean responseBody;
 }

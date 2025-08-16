@@ -11,11 +11,11 @@ public class SnakeCasePhysicalNamingStrategy extends PhysicalNamingStrategyStand
         if (name == null)
             return null;
 
-        String newName = convertSnakeCaseToCamelCase(name.getText());
+        String newName = convertCamelCaseToSnakeCase(name.getText());
         return Identifier.toIdentifier(newName);
     }
 
-    public String convertSnakeCaseToCamelCase(String fieldName) {
+    public String convertCamelCaseToSnakeCase(String fieldName) {
         StringBuilder stringBuilder = new StringBuilder();
         for (char c : fieldName.toCharArray()) {
             if (Character.isUpperCase(c))

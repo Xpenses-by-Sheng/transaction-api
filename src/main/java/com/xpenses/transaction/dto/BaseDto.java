@@ -2,7 +2,8 @@ package com.xpenses.transaction.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 public class BaseDto {
@@ -12,6 +13,7 @@ public class BaseDto {
     private String currency;
     private String category;
     private String source;
-    private Date dtInsert;
-    private Date dtUpdate;
+    private Timestamp dtRegist;
+    private Timestamp dtInsert;
+    private Timestamp dtUpdate;
 }

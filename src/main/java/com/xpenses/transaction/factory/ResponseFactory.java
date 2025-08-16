@@ -1,13 +1,13 @@
 package com.xpenses.transaction.factory;
 
 import com.xpenses.transaction.dto.response.ApiResponse;
-import com.xpenses.transaction.dto.response.ResponseBody;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import com.xpenses.transaction.util.LogUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseFactory {
-    public static ResponseEntity<ApiResponse> build(ResponseBody responseBody) {
+    public static ResponseEntity<ApiResponse> build(IncomeResponseBean responseBody) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setMessage("Operation success.");
         apiResponse.setResponseBody(responseBody);

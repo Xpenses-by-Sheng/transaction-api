@@ -1,7 +1,8 @@
 package com.xpenses.transaction.service;
 
-import com.xpenses.transaction.common.WorkBean;
+import com.xpenses.transaction.dto.IncomeParamsBean;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 
 public interface LogicMaster {
-    void execute(WorkBean workBean);
+    void execute(IncomeParamsBean paramsBean, IncomeResponseBean responseBean);
 }

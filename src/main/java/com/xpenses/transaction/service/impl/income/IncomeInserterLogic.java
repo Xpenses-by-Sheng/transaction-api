@@ -1,7 +1,8 @@
 package com.xpenses.transaction.service.impl.income;
 
-import com.xpenses.transaction.common.WorkBean;
 import com.xpenses.transaction.dto.IncomeDto;
+import com.xpenses.transaction.dto.IncomeParamsBean;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import com.xpenses.transaction.entity.Income;
 import com.xpenses.transaction.repository.IncomeRepository;
 import com.xpenses.transaction.service.LogicMaster;
@@ -21,12 +22,12 @@ public class IncomeInserterLogic implements LogicMaster {
     private final IncomeRepository incomeRepository;
 
     @Override
-    public void execute(WorkBean workBean) {
+    public void execute(IncomeParamsBean paramsBean, IncomeResponseBean responseBean) {
         logger.debug("Start {}", this.getClass().getName());
-        IncomeDto incomeDTO = workBean.getRequestBody().getIncome();
+        IncomeDto incomeDTO = paramsBean.getIncome();
         incomeDTO.setDtInsert(new Timestamp(System.currentTimeMillis()));
         Income savedIncome = incomeRepository.save(ObjectMapper.mapObject(incomeDTO, Income.class));
-        workBean.getResponseBody().setIncome(ObjectMapper.mapObject(savedIncome, IncomeDto.class));
+        responseBean.setIncome(ObjectMapper.mapObject(savedIncome, IncomeDto.class));
         logger.debug("End {}", this.getClass().getName());
     }
 }

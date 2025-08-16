@@ -1,7 +1,8 @@
 package com.xpenses.transaction.service.impl.income;
 
-import com.xpenses.transaction.common.WorkBean;
 import com.xpenses.transaction.dto.IncomeDto;
+import com.xpenses.transaction.dto.IncomeParamsBean;
+import com.xpenses.transaction.dto.IncomeResponseBean;
 import com.xpenses.transaction.entity.Income;
 import com.xpenses.transaction.repository.IncomeRepository;
 import com.xpenses.transaction.service.LogicMaster;
@@ -19,11 +20,11 @@ public class IncomeAcquirerLogic implements LogicMaster {
     private final IncomeRepository incomeRepository;
 
     @Override
-    public void execute(WorkBean workBean) {
+    public void execute(IncomeParamsBean paramsBean, IncomeResponseBean responseBean) {
         logger.debug("Start {}",this.getClass().getName());
-        Income query = ObjectMapper.mapObject(workBean.getRequestBody().getIncome(), Income.class);
+        Income query = ObjectMapper.mapObject(paramsBean.getIncome(), Income.class);
         incomeRepository.findById(query.getIncomeId())
-                .ifPresent(income -> workBean.getResponseBody().setIncome(ObjectMapper.mapObject(income, IncomeDto.class)));
+                .ifPresent(income -> responseBean.setIncome(ObjectMapper.mapObject(income, IncomeDto.class)));
         logger.debug("End {}",this.getClass().getName());
     }
 }
