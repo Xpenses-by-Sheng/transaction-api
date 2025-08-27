@@ -1,21 +1,40 @@
 package com.xpenses.transaction.factory;
 
-import com.xpenses.transaction.dto.IncomeDto;
 import com.xpenses.transaction.dto.IncomeParamsBean;
 import com.xpenses.transaction.dto.request.ApiRequest;
 import com.xpenses.transaction.dto.request.income.IncomeReq;
 import com.xpenses.transaction.enums.OperationType;
-import org.modelmapper.ModelMapper;
+import com.xpenses.transaction.mapper.IncomeMapper;
+import com.xpenses.transaction.mapper.MapperOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Slf4j
+@Component
 public class ParamsBeanFactory {
 
-    private static final ModelMapper MAPPER = new ModelMapper();
+    private final Map<OperationType, MapperOperation> mapperRegistry = new HashMap<>();
 
-    public static <T extends IncomeReq> IncomeParamsBean build(ApiRequest<T> request, OperationType operationType) {
+    public ParamsBeanFactory(List<MapperOperation> incomeMapperList) {
+        for (MapperOperation incomeMapper : incomeMapperList) {
+            mapperRegistry.put(incomeMapper.getOperationType(), incomeMapper);
+            log.info(incomeMapper.toString());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends IncomeReq> IncomeParamsBean build(ApiRequest<T> request, OperationType operationType) {
         IncomeParamsBean paramsBean = new IncomeParamsBean();
         paramsBean.setOperationType(operationType);
-        paramsBean.setIncome(MAPPER.map(request.getRequestBody(), IncomeDto.class));
+        IncomeMapper<T> mapper = (IncomeMapper<T>) mapperRegistry.get(operationType);
+        paramsBean.setIncome(mapper.reqToDto(request.getRequestBody()));
         return paramsBean;
     }
+
+
 
 }

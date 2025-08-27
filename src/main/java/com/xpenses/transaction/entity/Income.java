@@ -1,10 +1,13 @@
 package com.xpenses.transaction.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,6 +22,7 @@ public class Income {
     private String currency;
     private String category;
     private String source;
-    private Timestamp dtInsert;
-    private Timestamp dtUpdate;
+    private LocalDate dtRegist;
+    private LocalDateTime dtInsert;
+    private LocalDateTime dtUpdate;
 }

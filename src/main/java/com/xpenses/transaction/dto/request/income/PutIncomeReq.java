@@ -2,13 +2,9 @@ package com.xpenses.transaction.dto.request.income;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class PutIncomeReq implements IncomeReq {
     @NotBlank(message = "Income title must not be blank.")
     private String title;
