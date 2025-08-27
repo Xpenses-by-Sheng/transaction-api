@@ -17,7 +17,7 @@ public class GetIncomeService implements IncomeService {
 
     @Override
     public void execute(IncomeParamsBean paramsBean, IncomeResponseBean responseBean) {
-        responseBean.setIncome(incomeAcquirerLogic.execute(paramsBean.getIncome()));;
+        responseBean.setIncome(incomeAcquirerLogic.execute(paramsBean.getIncome()));
     }
 
     @Override
